@@ -86,7 +86,20 @@ describe("notesReducer", () => {
     expect(result).toEqual([baseNote]);
   });
 
-  //   test("DELETE removes only the target note", () => {});
+  test("DELETE removes only the target note", () => {
+    const secondNote: Note = { ...baseNote, id: "2" };
+    const result = notesReducer([baseNote, secondNote], {
+      type: "DELETE",
+      id: "1",
+    });
+    expect(result).toEqual([secondNote]);
+  });
 
-  //   test("DELETE on a non-existant note/id is no-op", () => {});
+  test("DELETE on a non-existant note/id is no-op", () => {
+    const result = notesReducer([baseNote], {
+      type: "DELETE",
+      id: "999",
+    });
+    expect(result).toEqual([baseNote]);
+  });
 });

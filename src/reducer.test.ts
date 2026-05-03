@@ -68,9 +68,23 @@ describe("notesReducer", () => {
     expect(result).toEqual([baseNote]);
   });
 
-  //   test("EDIT updates only the target note", () => {});
+  test("EDIT updates only the target note", () => {
+    const result = notesReducer([baseNote], {
+      type: "EDIT",
+      id: "1",
+      text: "hello Tempo",
+    });
+    expect(result).toEqual([{ ...baseNote, text: "hello Tempo" }]);
+  });
 
-  //   test("EDIT on a non-existant note/id is no-op", () => {});
+  test("EDIT on a non-existant note/id is no-op", () => {
+    const result = notesReducer([baseNote], {
+      type: "EDIT",
+      id: "999",
+      text: "hello",
+    });
+    expect(result).toEqual([baseNote]);
+  });
 
   //   test("DELETE removes only the target note", () => {});
 

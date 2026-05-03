@@ -48,9 +48,25 @@ describe("notesReducer", () => {
     expect(result).toEqual([baseNote]);
   });
 
-  //   test("RESIZE updates only the target note", () => {});
+  test("RESIZE updates only the target note", () => {
+    const result = notesReducer([baseNote], {
+      type: "RESIZE",
+      id: "1",
+      w: 250,
+      h: 175,
+    });
+    expect(result).toEqual([{ ...baseNote, w: 250, h: 175 }]);
+  });
 
-  //   test("RESIZE on a non-existant note/id is no-op", () => {});
+  test("RESIZE on a non-existant note/id is no-op", () => {
+    const result = notesReducer([baseNote], {
+      type: "RESIZE",
+      id: "999",
+      w: 250,
+      h: 175,
+    });
+    expect(result).toEqual([baseNote]);
+  });
 
   //   test("EDIT updates only the target note", () => {});
 

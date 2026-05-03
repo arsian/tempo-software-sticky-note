@@ -18,7 +18,14 @@ describe("notesReducer", () => {
     expect(result).toEqual([baseNote]);
   });
 
-  //   test("CREATE appends to an existing array", () => {});
+  test("CREATE appends to an existing array", () => {
+    const secondNote: Note = { ...baseNote, id: "2" };
+    const result = notesReducer([baseNote], {
+      type: "CREATE",
+      note: secondNote,
+    });
+    expect(result).toEqual([baseNote, secondNote]);
+  });
 
   //   test("MOVE updates only the target note", () => {});
   //   test("MOVE on a non-existant note/id is no-op", () => {});

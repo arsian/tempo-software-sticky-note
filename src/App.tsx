@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
+import Canvas from "./Canvas";
 import "./App.css";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <>
+      <Canvas />
       <section id="center">
         <div>Sticky Notes</div>
         <div className="hero">

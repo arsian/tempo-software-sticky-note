@@ -109,3 +109,44 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.canvas {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #f4f1ea;
+  overflow: hidden;
+  /* VVVV prevents text selection when dragging */
+  user-select: none;
+  cursor: crosshair;
+}
+
+.note {
+  position: absolute;
+  background: #fff6a8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2c2c2a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  cursor: grab;
+  overflow: hidden;
+}
+
+.note.color-0 {
+  background: #fff6a8;
+}
+.note.color-1 {
+  background: #ffd8a8;
+}
+.note.color-2 {
+  background: #b8f0c8;
+}
+.note.color-3 {
+  background: #c8dcff;
+}
+.note.color-4 {
+  background: #f8c8d8;
+}

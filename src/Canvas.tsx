@@ -8,7 +8,7 @@ const Canvas = () => {
   const trashRef = useRef(null);
   const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
-  function onMoueDown(e: React.MouseEvent) {
+  function onMouseDown(e: React.MouseEvent) {
     if (e.target !== e.currentTarget) return; // only fire on empty canvas
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -67,7 +67,7 @@ const Canvas = () => {
   }
 
   return (
-    <div className="canvas" onMouseDown={onMoueDown} ref={canvasRef}>
+    <div className="canvas" onMouseDown={onMouseDown} ref={canvasRef}>
       {notes.map((n) => (
         <Note key={n.id} note={n} dispatch={dispatch} trashRef={trashRef} />
       ))}

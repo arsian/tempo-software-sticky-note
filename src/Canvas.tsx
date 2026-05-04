@@ -5,7 +5,7 @@ import { initialNotes, MIN_NOTE_DIMS } from "./fixtures";
 
 const Canvas = () => {
   const canvasRef = useRef(null);
-
+  const trashRef = useRef(null);
   const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
   function onMoueDown(e: React.MouseEvent) {
@@ -69,8 +69,11 @@ const Canvas = () => {
   return (
     <div className="canvas" onMouseDown={onMoueDown} ref={canvasRef}>
       {notes.map((n) => (
-        <Note key={n.id} note={n} dispatch={dispatch} />
+        <Note key={n.id} note={n} dispatch={dispatch} trashRef={trashRef} />
       ))}
+      <div ref={trashRef} className="trash">
+        Trash
+      </div>
     </div>
   );
 };

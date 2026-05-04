@@ -150,3 +150,14 @@ code {
 .note.color-4 {
   background: #f8c8d8;
 }
+
+/* Had to look this up, especially the cursor */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.3) 50%);
+}

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { Action, Note as NoteT } from "./types";
 import { MIN_NOTE_DIMS } from "./fixtures";
 interface Props {
@@ -20,7 +20,18 @@ function rectsOverlap(a: DOMRect, b: DOMRect): boolean {
 
 const Note = ({ note, dispatch, trashRef }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (editing && textareaRef.current) {
+      // Defer one frame so React commits readOnly=false to the DOM first
+      requestAnimationFrame(() => {
+        textareaRef.current?.focus();
+      });
+    }
+  }, [editing]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     dispatch({ type: "BRING_TO_FRONT", id: note.id });
@@ -101,7 +112,9 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
     window.addEventListener("mouseup", onUp);
   };
 
-  const onDoubleClick = () => {
+  const onDoubleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
     dispatch({ type: "BRING_TO_FRONT", id: note.id });
     setEditing(true);
   };
@@ -115,6 +128,7 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
       onDoubleClick={onDoubleClick}
     >
       <textarea
+        ref={textareaRef}
         className="note-body"
         value={note.text}
         readOnly={!editing}
@@ -122,8 +136,7 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
           dispatch({ type: "EDIT", id: note.id, text: e.target.value })
         }
         onBlur={() => setEditing(false)}
-        onMouseDown={editing ? (e) => e.stopPropagation() : undefined}
-        autoFocus={editing}
+        onMouseDown={(e) => e.stopPropagation()}
       />
       <div className="resize-handle" onMouseDown={onResize} />
     </div>

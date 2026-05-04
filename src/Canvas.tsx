@@ -5,7 +5,6 @@ import { notesReducer } from "./reducer";
 import { initialNotes, MIN_NOTE_DIMS } from "./fixtures";
 import { FaGithub } from "react-icons/fa";
 
-<FaGithub size={20} />;
 const STORE_KEY = "sticky-notes";
 const loadNotes = (): NoteT[] => {
   try {

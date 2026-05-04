@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { Action, Note as NoteT } from "./types";
 import { MIN_NOTE_DIMS } from "./fixtures";
 interface Props {
@@ -20,6 +20,7 @@ function rectsOverlap(a: DOMRect, b: DOMRect): boolean {
 
 const Note = ({ note, dispatch, trashRef }: Props) => {
   const ref = useRef(null);
+  const [editing, setEditing] = useState(false);
 
   const onMouseDown = (e: React.MouseEvent) => {
     const startMouseX = e.clientX; //where the mouse pointer was when drag starts
@@ -102,8 +103,19 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
       onMouseDown={onMouseDown}
       style={{ left: note.x, top: note.y, width: note.w, height: note.h }}
       ref={ref}
+      onDoubleClick={() => setEditing(true)}
     >
-      {note.text}
+      <textarea
+        className="note-body"
+        value={note.text}
+        readOnly={!editing}
+        onChange={(e) =>
+          dispatch({ type: "EDIT", id: note.id, text: e.target.value })
+        }
+        onBlur={() => setEditing(false)}
+        onMouseDown={editing ? (e) => e.stopPropagation() : undefined}
+        autoFocus={editing}
+      />
       <div className="resize-handle" onMouseDown={onResize} />
     </div>
   );

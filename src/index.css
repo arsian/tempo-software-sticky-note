@@ -94,3 +94,20 @@ body {
   border-style: solid;
   color: rgba(180, 30, 30, 0.9);
 }
+
+.note-body {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font: inherit;
+  color: inherit;
+  cursor: inherit;
+  padding: 0;
+}
+
+.note-body:not([readonly]) {
+  cursor: text;
+}

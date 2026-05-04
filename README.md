@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# Sticky Notes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lean drag-and-drop sticky note app built with React, TypeScript, and Vite without external drag-and-drop libraries
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Click and drag empty canvas to create a note at any size and position
+- Drag a note to move it
+- Drag the bottom-right corner to resize
+- Drag a note onto the trash zone to delete it
+- Double-click to edit a note's text
+- Click on a note to bring it to the front
+- Notes persist across page reloads via localStorage
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + TypeScript
+- Vite (dev server + build)
+- Vitest + React Testing Library (tests)
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+State is managed with `useReducer` along with `CREATE`, `MOVE`, `RESIZE`, `EDIT`, `DELETE`, and `BRING_TO_FRONT` actions. Decision to choose reducer over state is an easy one, declarative and therefore easy to test. Enables forward looking feats such as history (undo/redo) as well.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Drag interactions follow a "DOM during, dispatch on commit" pattern: `mousedown` starts the gesture, `mousemove`/`mouseup` are attached to `window` (not the element), the DOM is mutated directly during the drag for performance, and a single dispatch commits the final state on release. This avoids re-rendering on every mouse move that would otherwise be updated as a `useState`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev      # start dev server
+npm test         # run tests
+npm run build    # production build
 ```

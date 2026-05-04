@@ -161,3 +161,11 @@ code {
   cursor: nwse-resize;
   background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.3) 50%);
 }
+
+.ghost {
+  position: absolute;
+  border: 1px dashed rgba(0, 0, 0, 0.4);
+  background: rgba(255, 246, 168, 0.4);
+  border-radius: 4px;
+  pointer-events: none;
+}

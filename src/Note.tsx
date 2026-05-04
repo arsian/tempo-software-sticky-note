@@ -1,14 +1,10 @@
 import { useRef } from "react";
 import type { Action, Note as NoteT } from "./types";
+import { MIN_NOTE_DIMS } from "./fixtures";
 interface Props {
   note: NoteT;
   dispatch: React.Dispatch<Action>;
 }
-
-const MIN_NOTE_DIMS = {
-  W: 80,
-  H: 60,
-} as const;
 
 const Note = ({ note, dispatch }: Props) => {
   const ref = useRef(null);
@@ -40,6 +36,7 @@ const Note = ({ note, dispatch }: Props) => {
   };
 
   const onResize = (e: React.MouseEvent) => {
+    e.stopPropagation();
     const startMouseX = e.clientX;
     const startMouseY = e.clientY;
     const startW = note.w;
@@ -64,6 +61,7 @@ const Note = ({ note, dispatch }: Props) => {
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
   };
+
   return (
     <div
       className={`note color-${note.color}`}

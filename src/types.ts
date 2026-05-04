@@ -13,4 +13,5 @@ export type Action =
   | { type: "MOVE"; id: string; x: number; y: number }
   | { type: "RESIZE"; id: string; w: number; h: number }
   | { type: "EDIT"; id: string; text: string }
-  | { type: "DELETE"; id: string };
+  | { type: "DELETE"; id: string }
+  | { type: "BRING_TO_FRONT"; id: string };

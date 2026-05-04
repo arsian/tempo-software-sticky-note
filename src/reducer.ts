@@ -18,5 +18,10 @@ export function notesReducer(state: Note[], action: Action): Note[] {
       );
     case "DELETE":
       return state.filter((note) => note.id !== action.id);
+    case "BRING_TO_FRONT": {
+      const note = state.find((n) => n.id === action.id);
+      if (state[state.length - 1] === note) return state;
+      return [...state.filter((n) => n.id !== action.id), note];
+    }
   }
 }

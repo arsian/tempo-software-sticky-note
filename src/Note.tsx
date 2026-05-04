@@ -23,6 +23,8 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
   const [editing, setEditing] = useState(false);
 
   const onMouseDown = (e: React.MouseEvent) => {
+    dispatch({ type: "BRING_TO_FRONT", id: note.id });
+
     const startMouseX = e.clientX; //where the mouse pointer was when drag starts
     const startMouseY = e.clientY;
 
@@ -72,29 +74,36 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
 
   const onResize = (e: React.MouseEvent) => {
     e.stopPropagation();
+    dispatch({ type: "BRING_TO_FRONT", id: note.id });
     const startMouseX = e.clientX;
     const startMouseY = e.clientY;
     const startW = note.w;
     const startH = note.h;
 
-    function onMove(ev: MouseEvent) {
+    const onMove = (ev: MouseEvent) => {
       const w = Math.max(MIN_NOTE_DIMS.W, startW + (ev.clientX - startMouseX));
       const h = Math.max(MIN_NOTE_DIMS.H, startH + (ev.clientY - startMouseY));
       if (ref.current) {
         ref.current.style.width = `${w}px`;
         ref.current.style.height = `${h}px`;
       }
-    }
-    function onUp(ev: MouseEvent) {
+    };
+
+    const onUp = (ev: MouseEvent) => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
       const w = Math.max(MIN_NOTE_DIMS.W, startW + (ev.clientX - startMouseX));
       const h = Math.max(MIN_NOTE_DIMS.H, startH + (ev.clientY - startMouseY));
       dispatch({ type: "RESIZE", id: note.id, w, h });
-    }
+    };
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
+  };
+
+  const onDoubleClick = () => {
+    dispatch({ type: "BRING_TO_FRONT", id: note.id });
+    setEditing(true);
   };
 
   return (
@@ -103,7 +112,7 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
       onMouseDown={onMouseDown}
       style={{ left: note.x, top: note.y, width: note.w, height: note.h }}
       ref={ref}
-      onDoubleClick={() => setEditing(true)}
+      onDoubleClick={onDoubleClick}
     >
       <textarea
         className="note-body"

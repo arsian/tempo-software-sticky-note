@@ -9,7 +9,7 @@ const Canvas = () => {
   const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
   const onMouseDown = (e: React.MouseEvent) => {
-    if (e.target !== e.currentTarget) return; // only fire on empty canvas
+    if (e.target !== e.currentTarget) return; // only fire on empty canvas - clicking on top of an existing note shold not create a note
 
     const canvas = canvasRef.current;
     if (!canvas) return;

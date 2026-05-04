@@ -8,8 +8,9 @@ const Canvas = () => {
   const trashRef = useRef(null);
   const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
-  function onMouseDown(e: React.MouseEvent) {
+  const onMouseDown = (e: React.MouseEvent) => {
     if (e.target !== e.currentTarget) return; // only fire on empty canvas
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -23,7 +24,7 @@ const Canvas = () => {
     ghost.style.top = `${startY}px`;
     canvas.appendChild(ghost);
 
-    function onMove(ev: MouseEvent) {
+    const onMove = (ev: MouseEvent) => {
       const cx = ev.clientX - rect.left;
       const cy = ev.clientY - rect.top;
       const x = Math.min(startX, cx);
@@ -34,9 +35,9 @@ const Canvas = () => {
       ghost.style.top = `${y}px`;
       ghost.style.width = `${w}px`;
       ghost.style.height = `${h}px`;
-    }
+    };
 
-    function onUp(ev: MouseEvent) {
+    const onUp = (ev: MouseEvent) => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
       ghost.remove();
@@ -60,11 +61,11 @@ const Canvas = () => {
           color: Math.floor(Math.random() * 5),
         },
       });
-    }
+    };
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-  }
+  };
 
   return (
     <div className="canvas" onMouseDown={onMouseDown} ref={canvasRef}>

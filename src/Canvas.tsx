@@ -11,6 +11,13 @@ const Canvas = () => {
   const onMouseDown = (e: React.MouseEvent) => {
     if (e.target !== e.currentTarget) return; // only fire on empty canvas - clicking on top of an existing note shold not create a note
 
+    // intercrept blur of an editing note — exit editing without creating a new note
+    const active = document.activeElement;
+    if (active instanceof HTMLTextAreaElement) {
+      active.blur();
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 

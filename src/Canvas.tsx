@@ -17,8 +17,8 @@ const loadNotes = (): NoteT[] => {
 };
 
 const Canvas = () => {
-  const canvasRef = useRef(null);
-  const trashRef = useRef(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const trashRef = useRef<HTMLDivElement>(null);
   const [notes, dispatch] = useReducer(notesReducer, undefined, loadNotes);
 
   useEffect(() => {

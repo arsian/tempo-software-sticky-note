@@ -19,7 +19,7 @@ function rectsOverlap(a: DOMRect, b: DOMRect): boolean {
 }
 
 const Note = ({ note, dispatch, trashRef }: Props) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState(false);
 
   const onMouseDown = (e: React.MouseEvent) => {

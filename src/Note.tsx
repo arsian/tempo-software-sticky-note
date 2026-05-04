@@ -34,11 +34,10 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
   }, [editing]);
 
   const onMouseDown = (e: React.MouseEvent) => {
-    dispatch({ type: "BRING_TO_FRONT", id: note.id });
+    if (editing) return;
 
     const startMouseX = e.clientX; //where the mouse pointer was when drag starts
     const startMouseY = e.clientY;
-
     let overTrash = false;
 
     const onMove = (ev: MouseEvent) => {
@@ -58,9 +57,9 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
         }
       }
     };
+
     const startX = note.x;
     const startY = note.y;
-
     const onUp = (ev: MouseEvent) => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
@@ -70,6 +69,9 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
       if (trashRef.current) {
         trashRef.current.classList.remove("armed");
       }
+
+      dispatch({ type: "BRING_TO_FRONT", id: note.id });
+
       if (overTrash) {
         dispatch({ type: "DELETE", id: note.id });
         return;
@@ -136,7 +138,7 @@ const Note = ({ note, dispatch, trashRef }: Props) => {
           dispatch({ type: "EDIT", id: note.id, text: e.target.value })
         }
         onBlur={() => setEditing(false)}
-        onMouseDown={(e) => e.stopPropagation()}
+        onMouseDown={editing ? (e) => e.stopPropagation() : undefined}
       />
       <div className="resize-handle" onMouseDown={onResize} />
     </div>

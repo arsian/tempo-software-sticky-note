@@ -8,12 +8,12 @@ const Canvas = () => {
     { id: "1", x: 60, y: 60, w: 180, h: 120, text: "First note", color: 0 },
     { id: "2", x: 280, y: 100, w: 180, h: 120, text: "Second note", color: 1 },
   ];
-  const [notes] = useReducer(notesReducer, initialNotes);
+  const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
   return (
     <div className="canvas">
       {notes.map((n) => (
-        <Note key={n.id} note={n} />
+        <Note key={n.id} note={n} dispatch={dispatch} />
       ))}
     </div>
   );

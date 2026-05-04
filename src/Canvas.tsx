@@ -1,12 +1,33 @@
-import { useReducer, useRef } from "react";
+import { useReducer, useRef, useEffect } from "react";
 import Note from "./Note";
+import type { Note as NoteT } from "./types";
 import { notesReducer } from "./reducer";
 import { initialNotes, MIN_NOTE_DIMS } from "./fixtures";
+
+const STORE_KEY = "sticky-notes";
+const loadNotes = (): NoteT[] => {
+  try {
+    const stored = localStorage.getItem(STORE_KEY);
+    if (!stored) return initialNotes;
+    return JSON.parse(stored);
+  } catch {
+    console.info("no saved work found. Clean slate!");
+    return initialNotes;
+  }
+};
 
 const Canvas = () => {
   const canvasRef = useRef(null);
   const trashRef = useRef(null);
-  const [notes, dispatch] = useReducer(notesReducer, initialNotes);
+  const [notes, dispatch] = useReducer(notesReducer, undefined, loadNotes);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(notes));
+    } catch {
+      // localStorage might be full or unavailable; ignore
+    }
+  }, [notes]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     if (e.target !== e.currentTarget) return; // only fire on empty canvas - clicking on top of an existing note shold not create a note

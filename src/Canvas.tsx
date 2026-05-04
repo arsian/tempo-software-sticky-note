@@ -3,7 +3,9 @@ import Note from "./Note";
 import type { Note as NoteT } from "./types";
 import { notesReducer } from "./reducer";
 import { initialNotes, MIN_NOTE_DIMS } from "./fixtures";
+import { FaGithub } from "react-icons/fa";
 
+<FaGithub size={20} />;
 const STORE_KEY = "sticky-notes";
 const loadNotes = (): NoteT[] => {
   try {
@@ -103,6 +105,15 @@ const Canvas = () => {
       <div ref={trashRef} className="trash">
         Trash
       </div>
+      <a
+        className="github-link"
+        href="https://github.com/arsian/tempo-software-sticky-note"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View source on GitHub"
+      >
+        <FaGithub size={90} />
+      </a>
     </div>
   );
 };
